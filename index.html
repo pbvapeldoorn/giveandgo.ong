@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Give 'n Go — Association Humanitaire</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Georgia, serif; color: #2d2a24; background: #faf8f4; }
+  a { color: inherit; text-decoration: none; }
+
+  nav {
+    position: fixed; top: 0; width: 100%; background: rgba(250,248,244,0.95);
+    backdrop-filter: blur(6px); z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem; border-bottom: 1px solid #d6cfc3;
+  }
+  .nav-logo { font-size: 1.3rem; font-weight: 700; color: #4a6741; letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 2rem; font-size: 0.9rem; color: #6b6355; font-family: sans-serif; }
+  .nav-links a:hover { color: #4a6741; }
+
+  section { padding: 5rem 3rem; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    background: linear-gradient(160deg, #e8ede0 0%, #f5ede0 50%, #ede8df 100%);
+    padding-top: 6rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: radial-gradient(circle at 20% 50%, #4a6741 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, #8b6340 0%, transparent 40%);
+  }
+  .hero-content { position: relative; max-width: 700px; }
+  .hero-eyebrow {
+    display: inline-block; font-family: sans-serif; font-size: 0.75rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: #7a6a50; margin-bottom: 1.5rem;
+    border: 1px solid #c4b89a; padding: 0.4rem 1.2rem; border-radius: 2rem;
+  }
+  .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 400; color: #2d2a24; line-height: 1.15; margin-bottom: 1.5rem; }
+  .hero h1 em { font-style: italic; color: #4a6741; }
+  .hero p { font-family: sans-serif; font-size: 1.1rem; color: #6b6355; line-height: 1.75; max-width: 520px; margin: 0 auto 2.5rem; }
+  .btn {
+    display: inline-block; font-family: sans-serif; font-size: 0.9rem;
+    background: #4a6741; color: #f0ede6; padding: 0.85rem 2.2rem;
+    border-radius: 2rem; letter-spacing: 0.03em; transition: background 0.2s;
+  }
+  .btn:hover { background: #3b5433; }
+
+  /* About */
+  .about { background: #faf8f4; max-width: 900px; margin: 0 auto; text-align: center; }
+  .section-label {
+    font-family: sans-serif; font-size: 0.72rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: #9c8a6e; margin-bottom: 1rem;
+  }
+  h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 400; color: #2d2a24; margin-bottom: 1.5rem; line-height: 1.2; }
+  .about p { font-family: sans-serif; font-size: 1.05rem; color: #6b6355; line-height: 1.85; max-width: 640px; margin: 0 auto; }
+  .divider { width: 48px; height: 2px; background: #a8b89a; margin: 1.5rem auto; }
+
+  /* Actions */
+  .actions { background: #f0ebe0; }
+  .actions-inner { max-width: 1100px; margin: 0 auto; }
+  .actions h2 { text-align: center; margin-bottom: 0.5rem; }
+  .actions .section-label { text-align: center; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .card {
+    background: #faf8f4; border-radius: 12px; padding: 2rem 1.5rem;
+    border: 1px solid #d6cfc3; transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-4px); }
+  .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .card h3 { font-size: 1.15rem; font-weight: 400; color: #2d2a24; margin-bottom: 0.75rem; font-family: Georgia, serif; }
+  .card p { font-family: sans-serif; font-size: 0.92rem; color: #6b6355; line-height: 1.7; }
+  .card-tag {
+    display: inline-block; margin-top: 1rem; font-family: sans-serif; font-size: 0.72rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: #4a6741;
+    border: 1px solid #a8b89a; padding: 0.25rem 0.75rem; border-radius: 2rem;
+  }
+
+  /* Team */
+  .team { background: #faf8f4; }
+  .team-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .team h2 { margin-bottom: 0.5rem; }
+  .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 3rem; }
+  .member { display: flex; flex-direction: column; align-items: center; width: 180px; }
+  .avatar {
+    width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: sans-serif; font-size: 1.1rem; font-weight: 500; color: #4a6741;
+    background: #dce8d4; border: 2px solid #b8cfaf; margin-bottom: 1rem;
+  }
+  .member-name { font-family: Georgia, serif; font-size: 1rem; color: #2d2a24; margin-bottom: 0.25rem; }
+  .member-role { font-family: sans-serif; font-size: 0.82rem; color: #9c8a6e; letter-spacing: 0.05em; }
+
+  /* Contact */
+  .contact { background: #e8ede0; text-align: center; }
+  .contact-inner { max-width: 600px; margin: 0 auto; }
+  .contact h2 { margin-bottom: 0.5rem; }
+  .contact p { font-family: sans-serif; font-size: 1rem; color: #6b6355; line-height: 1.75; margin-bottom: 2rem; }
+  .contact-email {
+    display: inline-block; font-family: sans-serif; font-size: 1rem; color: #4a6741;
+    border-bottom: 1px solid #a8b89a; padding-bottom: 2px;
+  }
+
+  /* Footer */
+  footer {
+    background: #2d2a24; color: #9c8a6e; text-align: center;
+    padding: 2rem; font-family: sans-serif; font-size: 0.82rem; letter-spacing: 0.03em;
+  }
+  footer span { color: #7a9a6f; }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; font-size: 0.8rem; }
+    section { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Give 'n Go</div>
+  <div class="nav-links">
+    <a href="#mission">Mission</a>
+    <a href="#actions">Nos actions</a>
+    <a href="#equipe">Équipe</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Association humanitaire</div>
+    <h1>Voyager avec<br><em>un but qui change tout</em></h1>
+    <p>Give 'n Go vous accompagne dans des missions humanitaires à l'étranger — pour que chaque voyage devienne une contribution concrète à un monde plus juste.</p>
+    <a href="#actions" class="btn">Découvrir nos missions</a>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about" id="mission">
+  <p class="section-label">Notre mission</p>
+  <h2>Un voyage qui a du sens</h2>
+  <div class="divider"></div>
+  <p>Give 'n Go agit comme une agence de voyage humanitaire. Nous organisons et accompagnons des départs vers des missions de terrain, là où l'aide est la plus nécessaire. Que vous ayez peu ou beaucoup de temps, nous trouvons la mission qui correspond à vos envies et à vos compétences.</p>
+</section>
+
+<!-- Actions -->
+<section class="actions" id="actions">
+  <div class="actions-inner">
+    <p class="section-label">Nos actions</p>
+    <h2>Là où nous agissons</h2>
+    <div class="divider" style="margin: 1.5rem auto;"></div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🇷🇴</div>
+        <h3>Roumanie — Accompagnement et réinsertion</h3>
+        <p>En partenariat avec une organisation locale, nous accompagnons des femmes victimes de prostitution vers un chemin de dignité et de réinsertion.</p>
+        <div class="card-tag">Roumanie</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🇬🇷</div>
+        <h3>Grèce — Aide alimentaire aux sans-abris</h3>
+        <p>Nos bénévoles se mobilisent régulièrement pour distribuer des repas aux personnes sans abri dans les rues de Grèce.</p>
+        <div class="card-tag">Grèce</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <h3>Afrique de l'Ouest — Construction d'une école</h3>
+        <p>Nous participons à la construction d'une école pour offrir à des enfants l'accès à l'éducation et à un avenir meilleur.</p>
+        <div class="card-tag">Afrique de l'Ouest</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="team" id="equipe">
+  <div class="team-inner">
+    <p class="section-label">Notre équipe</p>
+    <h2>Ceux qui font avancer Give 'n Go</h2>
+    <div class="divider"></div>
+    <div class="team-grid">
+      <div class="member">
+        <div class="avatar">CG</div>
+        <div class="member-name">Caroline Grob</div>
+        <div class="member-role">Présidente</div>
+      </div>
+      <div class="member">
+        <div class="avatar">SZ</div>
+        <div class="member-name">Sammy Zoccola</div>
+        <div class="member-role">Vice-Président</div>
+      </div>
+      <div class="member">
+        <div class="avatar">JS</div>
+        <div class="member-name">Jacques Schultz</div>
+        <div class="member-role">Trésorier</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <p class="section-label">Contact</p>
+    <h2>Rejoignez l'aventure</h2>
+    <div class="divider"></div>
+    <p>Vous souhaitez participer à une mission, en savoir plus sur nos actions ou simplement nous contacter ? Nous serions ravis d'échanger avec vous.</p>
+    <a href="mailto:contact@giveandgo.ong" class="contact-email">contact@giveandgo.ong</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span>Give 'n Go</span> — giveandgo.ong &nbsp;·&nbsp; Association humanitaire</p>
+</footer>
+
+</body>
+</html>
